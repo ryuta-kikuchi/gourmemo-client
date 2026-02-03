@@ -166,6 +166,17 @@ type PageProps = {
 export default function RestaurantDetail({ params }: PageProps) {
   const { slug } = use(params);
   const restaurant = restaurants.find((r) => r.slug === slug);
+  const displayRestaurant = restaurant ?? restaurants[0];
+
+  const [reviews, setReviews] = useState(displayRestaurant.reviews);
+  const [form, setForm] = useState({
+    author: "",
+    rating: "",
+    title: "",
+    body: "",
+    tags: [] as string[],
+  });
+  const [tagFilter, setTagFilter] = useState("");
 
   if (!restaurant) {
     return (
@@ -183,15 +194,6 @@ export default function RestaurantDetail({ params }: PageProps) {
     );
   }
 
-  const [reviews, setReviews] = useState(restaurant.reviews);
-  const [form, setForm] = useState({
-    author: "",
-    rating: "",
-    title: "",
-    body: "",
-    tags: [] as string[],
-  });
-  const [tagFilter, setTagFilter] = useState("");
 
   const tagOptions = [
     "ひとり",
@@ -244,7 +246,7 @@ export default function RestaurantDetail({ params }: PageProps) {
     }
 
     return filtered;
-  }, [tagFilter, tagOptions]);
+  }, [tagFilter, tagOptions, tagPopularity]);
 
   const reviewCount = reviews.length;
 
@@ -312,7 +314,7 @@ export default function RestaurantDetail({ params }: PageProps) {
             ← 一覧に戻る
           </Link>
           <span className="rounded-full bg-slate-900 px-3 py-1 text-sm font-semibold text-white">
-            ★ {restaurant.rating}
+            ★ {displayRestaurant.rating}
           </span>
         </div>
 
@@ -320,10 +322,12 @@ export default function RestaurantDetail({ params }: PageProps) {
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div>
               <p className="text-sm text-slate-500">
-                {restaurant.area} ・ {restaurant.price} ・ 最終訪問{" "}
-                {restaurant.visited}
+                {displayRestaurant.area} ・ {displayRestaurant.price} ・ 最終訪問{" "}
+                {displayRestaurant.visited}
               </p>
-              <h1 className="mt-2 text-3xl font-semibold">{restaurant.name}</h1>
+              <h1 className="mt-2 text-3xl font-semibold">
+                {displayRestaurant.name}
+              </h1>
             </div>
             <div className="rounded-xl border border-dashed border-slate-200 bg-slate-50 px-4 py-6 text-sm text-slate-400 md:w-56">
               写真（任意）エリア
@@ -334,16 +338,18 @@ export default function RestaurantDetail({ params }: PageProps) {
         <section className="mt-6 grid gap-4 md:grid-cols-3">
           <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <p className="text-sm text-slate-500">用途の雰囲気</p>
-            <p className="mt-2 text-lg font-semibold">{restaurant.mood}</p>
+            <p className="mt-2 text-lg font-semibold">{displayRestaurant.mood}</p>
           </div>
           <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <p className="text-sm text-slate-500">おすすめポイント</p>
-            <p className="mt-2 text-sm text-slate-700">{restaurant.recommend}</p>
+            <p className="mt-2 text-sm text-slate-700">
+              {displayRestaurant.recommend}
+            </p>
           </div>
           <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <p className="text-sm text-slate-500">タグ</p>
             <div className="mt-2 flex flex-wrap gap-2">
-              {restaurant.tags.map((tag) => (
+              {displayRestaurant.tags.map((tag) => (
                 <span
                   key={tag}
                   className="rounded-full bg-slate-100 px-2.5 py-1 text-xs text-slate-600"

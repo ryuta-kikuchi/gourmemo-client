@@ -28,7 +28,8 @@ docker compose up
 3. ブラウザで確認
 http://localhost:3000 にアクセス
 
-### TIPS: AIエージェントを使った運用フロー
+### TIPS: AIエージェントを使った運用方法
+#### 作業フロー
 PR 駆動 + Preview Deploy のサイクルで開発を進める
 
 1. Issue 作成
@@ -37,3 +38,7 @@ PR 駆動 + Preview Deploy のサイクルで開発を進める
 4. PR コメントで修正指示
 5. AI が追コミット
 6. OKならマージ
+
+#### 依頼文テンプレ
+AI_DEV_GUIDE.md を確認の上、Issue #<番号> を実装してPRを作成してください。
+PR本文に確認ポイントとPreview確認手順を書いてください。

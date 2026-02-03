@@ -1,26 +1,28 @@
-# AI Dev Guide
+# AI開発ガイド
 
-## Purpose
-- This repository is for frontend UI mockups only.
-- Use mock or static data. No real backend API calls.
-- Focus on layout, UX, and component structure.
+## 目的
+- このリポジトリは社内向け食レポアプリのフロントエンドです。
+- 現時点ではモック/静的データを使い、実バックエンドAPIは呼び出しません。
+- レイアウト、UX、コンポーネント構成に集中します。
+- 将来的に実際に動くアプリに発展させる想定です。
 
-## Tech Stack
-- Next.js (App Router)
+## 技術スタック
+- Next.js（App Router）
 - npm
 - TypeScript
 
-## Workflow Rules
-- Work in a feature branch per issue.
-- Always create or update a Pull Request.
-- Keep changes scoped to the issue.
+## 作業ルール
+- Issueごとにブランチを切る。
+- PRを必ず作成または更新する。
+- 変更範囲はIssueの内容に限定する。
+- 以降のやり取りは日本語で行う。
 
-## Delivery Rules
-- Ensure `npm run build` passes.
-- Preview must work (Vercel Preview).
-- Include review points in the PR description.
+## 納品ルール
+- `npm run build` が通ること。
+- Preview が動くこと（Vercel Preview）。
+- PR本文に確認ポイントを書くこと。
 
-## UI Mock Rules
-- Implement empty, loading, and error states when relevant.
-- Prefer reusable mock data modules under `app/_mock`.
-- Avoid real network requests.
+## UIモックのルール
+- 必要に応じて空/ローディング/エラー状態を作る。
+- モックデータは `app/_mock` 配下にまとめる。
+- 実ネットワーク通信は行わない。

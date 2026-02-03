@@ -1,20 +1,165 @@
+import Link from "next/link";
+
 export default function Home() {
+  const highlights = [
+    { label: "今週の投稿", value: "12件" },
+    { label: "平均評価", value: "4.2" },
+    { label: "人気エリア", value: "虎ノ門" },
+  ];
+
+  const filters = ["ランチ", "ひとり", "コスパ", "和食", "カフェ", "行列少なめ"];
+
   const restaurants = [
-    { name: "ラーメン太郎", rating: 4.5 },
-    { name: "寿司花子", rating: 4.0 },
+    {
+      slug: "ramen-ame",
+      name: "らーめん 雨",
+      area: "虎ノ門",
+      price: "¥¥",
+      rating: 4.5,
+      tags: ["ラーメン", "ランチ", "回転速い"],
+      note: "スープが軽くて午後も眠くならない。行列は11:45前が狙い目。",
+      visited: "2026/02/01",
+    },
+    {
+      slug: "bistro-23",
+      name: "港南ビストロ 23",
+      area: "新橋",
+      price: "¥¥¥",
+      rating: 4.0,
+      tags: ["洋食", "会食", "予約推奨"],
+      note: "肉料理が良い。席が広めで会話しやすい。",
+      visited: "2026/01/28",
+    },
+    {
+      slug: "chaya-suzuran",
+      name: "茶屋 すずらん",
+      area: "汐留",
+      price: "¥",
+      rating: 3.8,
+      tags: ["カフェ", "作業可", "甘味"],
+      note: "静かで打ち合わせにも使える。抹茶ラテが人気。",
+      visited: "2026/01/30",
+    },
+    {
+      slug: "sakanato-kome-madoka",
+      name: "魚と米 まどか",
+      area: "虎ノ門",
+      price: "¥¥",
+      rating: 4.3,
+      tags: ["和食", "定食", "ヘルシー"],
+      note: "焼き魚の定食が安定。午後の集中力が落ちない。",
+      visited: "2026/02/02",
+    },
+  ];
+
+  const fields = [
+    "店名",
+    "エリア",
+    "用途（ランチ/会食/作業）",
+    "価格帯",
+    "評価",
+    "コメント",
+    "写真（任意）",
   ];
 
   return (
-    <main className="p-6">
-      <h1 className="text-2xl font-bold mb-4">レストラン一覧</h1>
-      <ul>
-        {restaurants.map((r, i) => (
-          <li key={i} className="mb-2">
-            <div className="text-lg font-semibold">{r.name}</div>
-            <div>評価: {r.rating} ⭐</div>
-          </li>
-        ))}
-      </ul>
+    <main className="min-h-screen bg-gradient-to-b from-amber-50 via-white to-slate-50 text-slate-900">
+      <div className="mx-auto w-full max-w-5xl px-6 py-10">
+        <header className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="text-sm tracking-wide text-slate-500">
+              社内向け 食レポ共有
+            </p>
+            <h1 className="mt-2 text-3xl font-semibold leading-tight">
+              GourMemo
+              <span className="ml-2 text-base font-normal text-slate-500">
+                近くの「美味しい」をチームで貯める
+              </span>
+            </h1>
+          </div>
+          <div className="flex w-full max-w-md items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 shadow-sm">
+            <span className="text-sm text-slate-400">検索</span>
+            <div className="h-3 w-px bg-slate-200" />
+            <span className="text-sm text-slate-500">
+              店名・エリア・用途で探す
+            </span>
+          </div>
+        </header>
+
+        <section className="mt-8 grid gap-4 md:grid-cols-3">
+          {highlights.map((item) => (
+            <div
+              key={item.label}
+              className="rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm"
+            >
+              <p className="text-sm text-slate-500">{item.label}</p>
+              <p className="mt-2 text-2xl font-semibold">{item.value}</p>
+            </div>
+          ))}
+        </section>
+
+        <section className="mt-8 flex flex-wrap gap-2">
+          {filters.map((filter) => (
+            <span
+              key={filter}
+              className="rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-sm text-amber-800"
+            >
+              {filter}
+            </span>
+          ))}
+        </section>
+
+        <section className="mt-6 grid gap-4 md:grid-cols-2">
+          {restaurants.map((r) => (
+            <Link key={r.name} href={`/restaurants/${r.slug}`}>
+              <article className="flex h-full flex-col gap-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h2 className="text-lg font-semibold">{r.name}</h2>
+                    <p className="text-sm text-slate-500">
+                      {r.area} ・ {r.price} ・ {r.visited}
+                    </p>
+                  </div>
+                  <div className="rounded-full bg-slate-900 px-3 py-1 text-sm font-semibold text-white">
+                    ★ {r.rating}
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {r.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-full bg-slate-100 px-2.5 py-1 text-xs text-slate-600"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <p className="text-sm leading-relaxed text-slate-700">{r.note}</p>
+                <div className="rounded-xl border border-dashed border-slate-200 bg-slate-50 px-4 py-6 text-sm text-slate-400">
+                  写真（任意）エリア
+                </div>
+              </article>
+            </Link>
+          ))}
+        </section>
+
+        <section className="mt-10 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <h3 className="text-lg font-semibold">投稿テンプレ（仮）</h3>
+          <p className="mt-2 text-sm text-slate-500">
+            まだ要件未確定なので、まずは最低限の入力項目だけ仮置き。
+          </p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {fields.map((field) => (
+              <span
+                key={field}
+                className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-600"
+              >
+                {field}
+              </span>
+            ))}
+          </div>
+        </section>
+      </div>
     </main>
   );
 }

@@ -157,6 +157,24 @@ const restaurants: Restaurant[] = [
   },
 ];
 
+const TAG_OPTIONS = [
+  "??????",
+  "????",
+  "??????",
+  "???????",
+  "????????",
+  "??????",
+  "????",
+  "????",
+  "?????",
+  "???????",
+];
+
+const TAG_POPULARITY: Record<string, number> = Object.fromEntries(
+  TAG_OPTIONS.map((tag, index) => [tag, TAG_OPTIONS.length - index])
+);
+
+
 type PageProps = {
   params: Promise<{
     slug: string;
@@ -178,49 +196,10 @@ export default function RestaurantDetail({ params }: PageProps) {
   });
   const [tagFilter, setTagFilter] = useState("");
 
-  if (!restaurant) {
-    return (
-      <main className="min-h-screen bg-gradient-to-b from-amber-50 via-white to-slate-50 text-slate-900">
-        <div className="mx-auto w-full max-w-3xl px-6 py-16">
-          <p className="text-sm text-slate-500">該当する店舗が見つかりません。</p>
-          <Link
-            href="/"
-            className="mt-4 inline-flex items-center rounded-full border border-slate-200 bg-white px-4 py-2 text-sm text-slate-700 shadow-sm"
-          >
-            一覧に戻る
-          </Link>
-        </div>
-      </main>
-    );
-  }
 
 
-  const tagOptions = [
-    "ひとり",
-    "会食",
-    "作業可",
-    "回転速い",
-    "行列少なめ",
-    "コスパ",
-    "和食",
-    "洋食",
-    "カフェ",
-    "ヘルシー",
-  ];
-
-  const tagPopularity: Record<string, number> = {
-    ひとり: 10,
-    コスパ: 9,
-    回転速い: 8,
-    行列少なめ: 7,
-    作業可: 6,
-    会食: 5,
-    和食: 4,
-    洋食: 3,
-    カフェ: 2,
-    ヘルシー: 1,
-  };
-
+  
+  
   const normalizeText = (value: string) =>
     value
       .normalize("NFKC")
@@ -231,7 +210,7 @@ export default function RestaurantDetail({ params }: PageProps) {
   const filteredTags = useMemo(() => {
     const trimmed = tagFilter.trim();
     const normalizedFilter = normalizeText(trimmed);
-    const filtered = tagOptions.filter((tag) =>
+    const filtered = TAG_OPTIONS.filter((tag) =>
       normalizedFilter
         ? normalizeText(tag).includes(normalizedFilter)
         : true
@@ -239,14 +218,14 @@ export default function RestaurantDetail({ params }: PageProps) {
 
     if (!normalizedFilter) {
       return [...filtered].sort((a, b) => {
-        const scoreDiff = (tagPopularity[b] ?? 0) - (tagPopularity[a] ?? 0);
+        const scoreDiff = (TAG_POPULARITY[b] ?? 0) - (TAG_POPULARITY[a] ?? 0);
         if (scoreDiff !== 0) return scoreDiff;
         return a.localeCompare(b, "ja");
       });
     }
 
     return filtered;
-  }, [tagFilter, tagOptions, tagPopularity]);
+  }, [tagFilter]);
 
   const reviewCount = reviews.length;
 
@@ -302,6 +281,22 @@ export default function RestaurantDetail({ params }: PageProps) {
     setReviews((current) => [newReview, ...current]);
     setForm({ author: "", rating: "", title: "", body: "", tags: [] });
   };
+
+  if (!restaurant) {
+    return (
+      <main className="min-h-screen bg-gradient-to-b from-amber-50 via-white to-slate-50 text-slate-900">
+        <div className="mx-auto w-full max-w-3xl px-6 py-16">
+          <p className="text-sm text-slate-500">該当する店舗が見つかりません。</p>
+          <Link
+            href="/"
+            className="mt-4 inline-flex items-center rounded-full border border-slate-200 bg-white px-4 py-2 text-sm text-slate-700 shadow-sm"
+          >
+            一覧に戻る
+          </Link>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-amber-50 via-white to-slate-50 text-slate-900">

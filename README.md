@@ -27,3 +27,13 @@ docker compose up
 
 3. ブラウザで確認
 http://localhost:3000 にアクセス
+
+### TIPS: AIエージェントを使った運用フロー
+PR 駆動 + Preview Deploy のサイクルで開発を進める
+
+1. Issue 作成
+2. AI が実装して PR 作成
+3. Vercel Preview で確認
+4. PR コメントで修正指示
+5. AI が追コミット
+6. OKならマージ

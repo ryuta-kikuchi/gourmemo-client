@@ -179,11 +179,7 @@ export default function RestaurantDetail({ params }: PageProps) {
           </div>
         </header>
 
-        <section className="mt-6 grid gap-4 md:grid-cols-3">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <p className="text-sm text-slate-500">用途の雰囲気</p>
-            <p className="mt-2 text-lg font-semibold">{displayRestaurant.mood}</p>
-          </div>
+        <section className="mt-6 grid gap-4 md:grid-cols-2">
           <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <p className="text-sm text-slate-500">おすすめポイント</p>
             <p className="mt-2 text-sm text-slate-700">
@@ -391,9 +387,6 @@ export default function RestaurantDetail({ params }: PageProps) {
                 })}
               </div>
             </div>
-            <div className="rounded-xl border border-dashed border-slate-200 bg-white p-4 text-sm text-slate-400">
-              集計コメント欄（例:「ランチ利用が多い」など）
-            </div>
           </div>
 
           <div className="mt-4 grid gap-4">
@@ -436,17 +429,6 @@ export default function RestaurantDetail({ params }: PageProps) {
           </div>
         </section>
 
-        <section className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h2 className="text-lg font-semibold">このお店を使うとき</h2>
-          <div className="mt-3 grid gap-3 md:grid-cols-2">
-            <div className="rounded-xl border border-slate-100 bg-slate-50 p-4 text-sm text-slate-600">
-              仕事の合間にさっと行ける
-            </div>
-            <div className="rounded-xl border border-slate-100 bg-slate-50 p-4 text-sm text-slate-600">
-              同僚を連れて行きやすい
-            </div>
-          </div>
-        </section>
       </div>
     </main>
   );

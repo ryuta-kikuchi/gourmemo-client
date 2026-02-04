@@ -179,13 +179,7 @@ export default function RestaurantDetail({ params }: PageProps) {
           </div>
         </header>
 
-        <section className="mt-6 grid gap-4 md:grid-cols-2">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <p className="text-sm text-slate-500">おすすめポイント</p>
-            <p className="mt-2 text-sm text-slate-700">
-              {displayRestaurant.recommend}
-            </p>
-          </div>
+        <section className="mt-6 grid gap-4">
           <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <p className="text-sm text-slate-500">タグ</p>
             <div className="mt-2 flex flex-wrap gap-2">

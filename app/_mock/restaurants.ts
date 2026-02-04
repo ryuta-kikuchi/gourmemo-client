@@ -40,7 +40,7 @@ export const restaurants: Restaurant[] = [
         rating: 4.5,
         title: "午後も眠くならない味",
         body: "スープが軽めで胃もたれしない。回転早いので短時間ランチに最適。",
-        tags: ["回転速い", "一人向け"],
+        tags: ["ラーメン", "回転速い", "一人向け"],
       },
       {
         author: "鈴木",

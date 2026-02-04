@@ -2,6 +2,7 @@ export type Review = {
   author: string;
   date: string;
   rating: number;
+  spend?: number;
   title: string;
   body: string;
   tags: string[];
@@ -21,12 +22,38 @@ export type Restaurant = {
   reviews: Review[];
 };
 
+const formatYen = (value: number) => `¥${value.toLocaleString("ja-JP")}`;
+
+export const getPriceSummary = (restaurant: Restaurant) => {
+  const spends = restaurant.reviews
+    .map((review) => review.spend)
+    .filter((value): value is number => typeof value === "number");
+
+  if (spends.length === 0) {
+    return {
+      label: restaurant.price || "価格未登録",
+      count: 0,
+      source: "default",
+    };
+  }
+
+  const min = Math.min(...spends);
+  const max = Math.max(...spends);
+  const label = min === max ? formatYen(min) : `${formatYen(min)}〜${formatYen(max)}`;
+
+  return {
+    label,
+    count: spends.length,
+    source: "reviews",
+  };
+};
+
 export const restaurants: Restaurant[] = [
   {
     slug: "ramen-ame",
     name: "らーめん 雨",
     area: "虎ノ門",
-    price: "¥¥",
+    price: "ランチ ¥1,000〜1,500",
     rating: 4.5,
     tags: ["ラーメン", "ランチ", "回転速い"],
     note: "スープが軽くて午後も眠くならない。行列は11:45前が狙い目。",
@@ -38,6 +65,7 @@ export const restaurants: Restaurant[] = [
         author: "佐藤",
         date: "2026/02/01",
         rating: 4.5,
+        spend: 1200,
         title: "午後も眠くならない味",
         body: "スープが軽めで胃もたれしない。回転早いので短時間ランチに最適。",
         tags: ["ラーメン", "回転速い", "一人向け"],
@@ -46,6 +74,7 @@ export const restaurants: Restaurant[] = [
         author: "鈴木",
         date: "2026/01/24",
         rating: 4.0,
+        spend: 1100,
         title: "並ぶなら11:30前",
         body: "ピークを外せば待ち時間少なめ。味玉が当たりだった。",
         tags: ["並び注意", "味玉"],
@@ -56,7 +85,7 @@ export const restaurants: Restaurant[] = [
     slug: "bistro-23",
     name: "港南ビストロ 23",
     area: "新橋",
-    price: "¥¥¥",
+    price: "ディナー ¥4,000〜6,000",
     rating: 4.0,
     tags: ["洋食", "会食", "予約推奨"],
     note: "肉料理が良い。席が広めで会話しやすい。",
@@ -68,6 +97,7 @@ export const restaurants: Restaurant[] = [
         author: "田中",
         date: "2026/01/28",
         rating: 4.2,
+        spend: 5200,
         title: "会食で安心",
         body: "席が広くて会話しやすい。接客も安定していた。",
         tags: ["会食", "予約推奨"],
@@ -76,6 +106,7 @@ export const restaurants: Restaurant[] = [
         author: "小林",
         date: "2026/01/20",
         rating: 3.8,
+        spend: 4800,
         title: "肉料理は良い",
         body: "味は良いが提供まで少し時間がかかった。",
         tags: ["時間に余裕"],
@@ -84,6 +115,7 @@ export const restaurants: Restaurant[] = [
         author: "伊藤",
         date: "2026/01/18",
         rating: 4.0,
+        spend: 5600,
         title: "落ち着いた雰囲気",
         body: "照明が落ち着いていて会話がしやすい。",
         tags: ["雰囲気良い"],
@@ -94,7 +126,7 @@ export const restaurants: Restaurant[] = [
     slug: "chaya-suzuran",
     name: "茶屋 すずらん",
     area: "汐留",
-    price: "¥",
+    price: "カフェ ¥800〜1,200",
     rating: 3.8,
     tags: ["カフェ", "作業可", "甘味"],
     note: "静かで打ち合わせにも使える。抹茶ラテが人気。",
@@ -106,6 +138,7 @@ export const restaurants: Restaurant[] = [
         author: "山本",
         date: "2026/01/30",
         rating: 3.7,
+        spend: 900,
         title: "打ち合わせ向き",
         body: "静かで話しやすい。電源席は早めに埋まる。",
         tags: ["作業可", "電源"],
@@ -114,6 +147,7 @@ export const restaurants: Restaurant[] = [
         author: "高橋",
         date: "2026/01/22",
         rating: 3.9,
+        spend: 980,
         title: "抹茶ラテが良い",
         body: "甘さ控えめで飲みやすい。おやつに丁度いい。",
         tags: ["甘味", "カフェ"],
@@ -124,7 +158,7 @@ export const restaurants: Restaurant[] = [
     slug: "sakanato-kome-madoka",
     name: "魚と米 まどか",
     area: "虎ノ門",
-    price: "¥¥",
+    price: "ランチ ¥1,100〜1,600",
     rating: 4.3,
     tags: ["和食", "定食", "ヘルシー"],
     note: "焼き魚の定食が安定。午後の集中力が落ちない。",
@@ -136,6 +170,7 @@ export const restaurants: Restaurant[] = [
         author: "中村",
         date: "2026/02/02",
         rating: 4.4,
+        spend: 1350,
         title: "午後に効く定食",
         body: "脂が重くなくて午後も集中できた。",
         tags: ["ヘルシー", "定食"],
@@ -144,6 +179,7 @@ export const restaurants: Restaurant[] = [
         author: "斎藤",
         date: "2026/01/29",
         rating: 4.1,
+        spend: 1480,
         title: "日替わりが当たり",
         body: "焼き魚がふっくら。小鉢も良い。",
         tags: ["日替わり", "小鉢"],

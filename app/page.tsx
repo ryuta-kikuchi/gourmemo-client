@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 
 import { fields } from "./_mock/home";
-import { restaurants, tagOptions } from "./_mock/restaurants";
+import { getPriceSummary, restaurants, tagOptions } from "./_mock/restaurants";
 
 export default function Home() {
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
@@ -15,11 +15,13 @@ export default function Home() {
           new Set(restaurant.reviews.flatMap((review) => review.tags))
         );
         const displayTags = reviewTags.slice(0, 4);
+        const priceSummary = getPriceSummary(restaurant);
 
         return {
           ...restaurant,
           reviewTags,
           displayTags,
+          priceSummary,
         };
       }),
     []
@@ -104,7 +106,7 @@ export default function Home() {
                     <div>
                       <h2 className="text-lg font-semibold">{r.name}</h2>
                       <p className="text-sm text-slate-500">
-                        {r.area} ・ {r.price} ・ {r.visited}
+                        {r.area} ・ 価格帯 {r.priceSummary.label} ・ {r.visited}
                       </p>
                     </div>
                     <div className="rounded-full bg-slate-900 px-3 py-1 text-sm font-semibold text-white">

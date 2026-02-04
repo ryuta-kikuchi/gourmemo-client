@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { fields, filters, highlights, restaurants } from "./_mock/home";
+import { fields, filters, restaurants } from "./_mock/home";
 
 export default function Home() {
   return (
@@ -26,18 +26,6 @@ export default function Home() {
             </span>
           </div>
         </header>
-
-        <section className="mt-8 grid gap-4 md:grid-cols-3">
-          {highlights.map((item) => (
-            <div
-              key={item.label}
-              className="rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm"
-            >
-              <p className="text-sm text-slate-500">{item.label}</p>
-              <p className="mt-2 text-2xl font-semibold">{item.value}</p>
-            </div>
-          ))}
-        </section>
 
         <section className="mt-8 flex flex-wrap gap-2">
           {filters.map((filter) => (

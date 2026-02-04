@@ -1,8 +1,39 @@
-import Link from "next/link";
+"use client";
 
-import { fields, filters, restaurants } from "./_mock/home";
+import Link from "next/link";
+import { useMemo, useState } from "react";
+
+import { fields } from "./_mock/home";
+import { restaurants, tagOptions } from "./_mock/restaurants";
 
 export default function Home() {
+  const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const restaurantsWithTags = useMemo(
+    () =>
+      restaurants.map((restaurant) => {
+        const reviewTags = Array.from(
+          new Set(restaurant.reviews.flatMap((review) => review.tags))
+        );
+        const displayTags = reviewTags.slice(0, 4);
+
+        return {
+          ...restaurant,
+          reviewTags,
+          displayTags,
+        };
+      }),
+    []
+  );
+  const filteredRestaurants = useMemo(() => {
+    if (!selectedTag) {
+      return restaurantsWithTags;
+    }
+
+    return restaurantsWithTags.filter((restaurant) =>
+      restaurant.reviewTags.includes(selectedTag)
+    );
+  }, [restaurantsWithTags, selectedTag]);
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-amber-50 via-white to-slate-50 text-slate-900">
       <div className="mx-auto w-full max-w-5xl px-6 py-10">
@@ -24,49 +55,87 @@ export default function Home() {
           </div>
         </header>
 
-        <section className="mt-8 flex flex-wrap gap-2">
-          {filters.map((filter) => (
-            <span
-              key={filter}
-              className="rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-sm text-amber-800"
+        <section className="mt-8 rounded-2xl border border-amber-100 bg-white/80 p-4 shadow-sm">
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setSelectedTag(null)}
+              className={`rounded-full border px-3 py-1 text-sm transition ${
+                selectedTag === null
+                  ? "border-amber-300 bg-amber-100 text-amber-800"
+                  : "border-slate-200 bg-white text-slate-500 hover:border-amber-200 hover:text-amber-700"
+              }`}
             >
-              {filter}
-            </span>
-          ))}
+              すべて
+            </button>
+            {tagOptions.map((tag) => {
+              const isSelected = selectedTag === tag;
+              return (
+                <button
+                  key={tag}
+                  type="button"
+                  onClick={() => setSelectedTag(tag)}
+                  className={`rounded-full border px-3 py-1 text-sm transition ${
+                    isSelected
+                      ? "border-amber-300 bg-amber-100 text-amber-800"
+                      : "border-slate-200 bg-white text-slate-600 hover:border-amber-200 hover:text-amber-700"
+                  }`}
+                >
+                  {tag}
+                </button>
+              );
+            })}
+          </div>
+          <p className="mt-3 text-xs text-slate-500">
+            ユーザーレビューのタグで店舗カードをしぼり込みできます。
+          </p>
         </section>
 
         <section className="mt-6 grid gap-4 md:grid-cols-2">
-          {restaurants.map((r) => (
-            <Link key={r.name} href={`/restaurants/${r.slug}`}>
-              <article className="flex h-full flex-col gap-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h2 className="text-lg font-semibold">{r.name}</h2>
-                    <p className="text-sm text-slate-500">
-                      {r.area} ・ {r.price} ・ {r.visited}
-                    </p>
+          {filteredRestaurants.length === 0 ? (
+            <div className="rounded-2xl border border-dashed border-slate-200 bg-white px-6 py-10 text-center text-sm text-slate-500">
+              選択したタグに合う店舗がまだ登録されていません。
+            </div>
+          ) : (
+            filteredRestaurants.map((r) => (
+              <Link key={r.name} href={`/restaurants/${r.slug}`}>
+                <article className="flex h-full flex-col gap-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h2 className="text-lg font-semibold">{r.name}</h2>
+                      <p className="text-sm text-slate-500">
+                        {r.area} ・ {r.price} ・ {r.visited}
+                      </p>
+                    </div>
+                    <div className="rounded-full bg-slate-900 px-3 py-1 text-sm font-semibold text-white">
+                      ★ {r.rating}
+                    </div>
                   </div>
-                  <div className="rounded-full bg-slate-900 px-3 py-1 text-sm font-semibold text-white">
-                    ★ {r.rating}
+                  <div className="flex flex-wrap gap-2">
+                    {r.displayTags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full bg-slate-100 px-2.5 py-1 text-xs text-slate-600"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                    {r.reviewTags.length === 0 && (
+                      <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs text-slate-400">
+                        タグ未設定
+                      </span>
+                    )}
                   </div>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {r.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-full bg-slate-100 px-2.5 py-1 text-xs text-slate-600"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <p className="text-sm leading-relaxed text-slate-700">{r.note}</p>
-                <div className="rounded-xl border border-dashed border-slate-200 bg-slate-50 px-4 py-6 text-sm text-slate-400">
-                  写真（任意）エリア
-                </div>
-              </article>
-            </Link>
-          ))}
+                  <p className="text-sm leading-relaxed text-slate-700">
+                    {r.note}
+                  </p>
+                  <div className="rounded-xl border border-dashed border-slate-200 bg-slate-50 px-4 py-6 text-sm text-slate-400">
+                    写真（任意）エリア
+                  </div>
+                </article>
+              </Link>
+            ))
+          )}
         </section>
 
         <section className="mt-10 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">

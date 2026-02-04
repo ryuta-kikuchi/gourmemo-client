@@ -13,9 +13,6 @@ export default function Home() {
             </p>
             <h1 className="mt-2 text-3xl font-semibold leading-tight">
               GourMemo
-              <span className="ml-2 text-base font-normal text-slate-500">
-                近くの「美味しい」をチームで貯める
-              </span>
             </h1>
           </div>
           <div className="flex w-full max-w-md items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 shadow-sm">

@@ -3,7 +3,12 @@
 import Link from "next/link";
 import { use, useMemo, useState } from "react";
 
-import { restaurants, tagOptions, type Review } from "../../_mock/restaurants";
+import {
+  getPriceSummary,
+  restaurants,
+  tagOptions,
+  type Review,
+} from "../../_mock/restaurants";
 
 const TAG_POPULARITY: Record<string, number> = Object.fromEntries(
   tagOptions.map((tag, index) => [tag, tagOptions.length - index])
@@ -24,11 +29,17 @@ export default function RestaurantDetail({ params }: PageProps) {
   const [form, setForm] = useState({
     author: "",
     rating: "",
+    spend: "",
     title: "",
     body: "",
     tags: [] as string[],
   });
   const [tagFilter, setTagFilter] = useState("");
+
+  const priceSummary = useMemo(
+    () => getPriceSummary({ ...displayRestaurant, reviews }),
+    [displayRestaurant, reviews]
+  );
 
   const normalizeText = (value: string) =>
     value
@@ -93,6 +104,7 @@ export default function RestaurantDetail({ params }: PageProps) {
     }
 
     const ratingValue = Number(form.rating);
+    const spendValue = Number(form.spend);
     const today = new Date();
     const yyyy = today.getFullYear();
     const mm = String(today.getMonth() + 1).padStart(2, "0");
@@ -103,13 +115,15 @@ export default function RestaurantDetail({ params }: PageProps) {
       author: form.author || "匿名",
       date,
       rating: Number.isNaN(ratingValue) ? 4.0 : ratingValue,
+      spend:
+        form.spend && !Number.isNaN(spendValue) ? Math.max(spendValue, 0) : undefined,
       title: form.title || "タイトル未入力",
       body: form.body || "コメントはあとで追加予定。",
       tags: form.tags.length > 0 ? form.tags : ["タグ未設定"],
     };
 
     setReviews((current) => [newReview, ...current]);
-    setForm({ author: "", rating: "", title: "", body: "", tags: [] });
+    setForm({ author: "", rating: "", spend: "", title: "", body: "", tags: [] });
   };
 
   if (!restaurant) {
@@ -147,9 +161,14 @@ export default function RestaurantDetail({ params }: PageProps) {
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div>
               <p className="text-sm text-slate-500">
-                {displayRestaurant.area} ・ {displayRestaurant.price} ・ 最終訪問{" "}
+                {displayRestaurant.area} ・ 価格帯 {priceSummary.label} ・ 最終訪問{" "}
                 {displayRestaurant.visited}
               </p>
+              {priceSummary.source === "reviews" && (
+                <p className="mt-1 text-xs text-slate-400">
+                  レビューの支払額（{priceSummary.count}件）から算出
+                </p>
+              )}
               <h1 className="mt-2 text-3xl font-semibold">
                 {displayRestaurant.name}
               </h1>
@@ -236,6 +255,22 @@ export default function RestaurantDetail({ params }: PageProps) {
                 </select>
               </label>
             </div>
+            <label className="flex flex-col gap-2 text-sm text-slate-600">
+              支払額（任意）
+              <input
+                type="number"
+                value={form.spend}
+                onChange={(event) =>
+                  setForm((current) => ({
+                    ...current,
+                    spend: event.target.value,
+                  }))
+                }
+                placeholder="例: 1200"
+                min={0}
+                className="rounded-lg border border-slate-200 px-3 py-2 text-slate-700"
+              />
+            </label>
 
             <label className="flex flex-col gap-2 text-sm text-slate-600">
               タイトル
@@ -375,6 +410,11 @@ export default function RestaurantDetail({ params }: PageProps) {
                     <p className="mt-1 text-xs text-slate-500">
                       {review.author} ・ {review.date}
                     </p>
+                    {typeof review.spend === "number" && (
+                      <p className="mt-1 text-xs text-slate-500">
+                        支払額 ¥{review.spend.toLocaleString("ja-JP")}
+                      </p>
+                    )}
                   </div>
                   <span className="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-slate-700">
                     ★ {review.rating}

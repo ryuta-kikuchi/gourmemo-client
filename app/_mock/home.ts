@@ -1,9 +1,3 @@
-export const highlights = [
-  { label: "今週の投稿", value: "12件" },
-  { label: "平均評価", value: "4.2" },
-  { label: "人気エリア", value: "虎ノ門" },
-];
-
 export const filters = [
   "ランチ",
   "ひとり",

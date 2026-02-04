@@ -108,6 +108,7 @@ export default function Home() {
                       <p className="text-sm text-slate-500">
                         {r.area} ・ 価格帯 {r.priceSummary.label} ・ {r.visited}
                       </p>
+                      <p className="text-sm text-slate-500">{r.address}</p>
                     </div>
                     <div className="rounded-full bg-slate-900 px-3 py-1 text-sm font-semibold text-white">
                       ★ {r.rating}

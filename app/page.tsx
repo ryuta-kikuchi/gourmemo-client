@@ -11,15 +11,15 @@ export default function Home() {
   const restaurantsWithTags = useMemo(
     () =>
       restaurants.map((restaurant) => {
-        const reviewTags = restaurant.reviews.flatMap((review) => review.tags);
-        const mergedTags = Array.from(
-          new Set([...restaurant.tags, ...reviewTags])
+        const reviewTags = Array.from(
+          new Set(restaurant.reviews.flatMap((review) => review.tags))
         );
+        const displayTags = reviewTags.slice(0, 4);
 
         return {
           ...restaurant,
           reviewTags,
-          mergedTags,
+          displayTags,
         };
       }),
     []
@@ -30,7 +30,7 @@ export default function Home() {
     }
 
     return restaurantsWithTags.filter((restaurant) =>
-      restaurant.mergedTags.includes(selectedTag)
+      restaurant.reviewTags.includes(selectedTag)
     );
   }, [restaurantsWithTags, selectedTag]);
 
@@ -87,7 +87,7 @@ export default function Home() {
             })}
           </div>
           <p className="mt-3 text-xs text-slate-500">
-            レビュータグも含めて店舗カードをしぼり込みできます。
+            ユーザーレビューのタグで店舗カードをしぼり込みできます。
           </p>
         </section>
 
@@ -112,21 +112,19 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    {r.mergedTags.map((tag) => {
-                      const isReviewTag = !r.tags.includes(tag);
-                      return (
-                        <span
-                          key={tag}
-                          className={`rounded-full px-2.5 py-1 text-xs ${
-                            isReviewTag
-                              ? "border border-amber-200 bg-amber-50 text-amber-700"
-                              : "bg-slate-100 text-slate-600"
-                          }`}
-                        >
-                          {tag}
-                        </span>
-                      );
-                    })}
+                    {r.displayTags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full bg-slate-100 px-2.5 py-1 text-xs text-slate-600"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                    {r.reviewTags.length === 0 && (
+                      <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs text-slate-400">
+                        タグ未設定
+                      </span>
+                    )}
                   </div>
                   <p className="text-sm leading-relaxed text-slate-700">
                     {r.note}

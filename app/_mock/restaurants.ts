@@ -49,6 +49,24 @@ export const getPriceSummary = (restaurant: Restaurant) => {
   };
 };
 
+export const getReviewNote = (restaurant: Restaurant) => {
+  if (restaurant.reviews.length === 0) {
+    return restaurant.note || "レビュー未投稿";
+  }
+
+  const latestReview = [...restaurant.reviews].sort((a, b) =>
+    a.date < b.date ? 1 : -1
+  )[0];
+
+  if (!latestReview) {
+    return restaurant.note || "レビュー未投稿";
+  }
+
+  return latestReview.title
+    ? `${latestReview.title}：${latestReview.body}`
+    : latestReview.body;
+};
+
 export const restaurants: Restaurant[] = [
   {
     slug: "ramen-ame",

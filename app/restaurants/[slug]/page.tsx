@@ -5,6 +5,7 @@ import { use, useMemo, useState } from "react";
 
 import {
   getPriceSummary,
+  getReviewNote,
   restaurants,
   tagOptions,
   type Review,
@@ -38,6 +39,10 @@ export default function RestaurantDetail({ params }: PageProps) {
 
   const priceSummary = useMemo(
     () => getPriceSummary({ ...displayRestaurant, reviews }),
+    [displayRestaurant, reviews]
+  );
+  const reviewNote = useMemo(
+    () => getReviewNote({ ...displayRestaurant, reviews }),
     [displayRestaurant, reviews]
   );
 
@@ -199,7 +204,7 @@ export default function RestaurantDetail({ params }: PageProps) {
           <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <p className="text-sm text-slate-500">メモ</p>
             <p className="mt-2 text-sm text-slate-700">
-              {displayRestaurant.note}
+              {reviewNote}
             </p>
           </div>
         </section>

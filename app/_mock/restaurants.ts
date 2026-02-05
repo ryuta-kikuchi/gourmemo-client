@@ -107,7 +107,7 @@ export const restaurants: Restaurant[] = [
     area: "新橋",
     address: "東京都港区新橋3-12-5 港南ビル 2F",
     price: "ディナー ¥4,000〜6,000",
-    rating: 4.0,
+    rating: 3.8,
     tags: ["洋食", "会食", "予約推奨"],
     note: "肉料理が良い。席が広めで会話しやすい。",
     visited: "2026/01/28",
@@ -117,7 +117,7 @@ export const restaurants: Restaurant[] = [
       {
         author: "田中",
         date: "2026/01/28",
-        rating: 4.2,
+        rating: 4.0,
         spend: 5200,
         title: "会食で安心",
         body: "席が広くて会話しやすい。接客も安定していた。",
@@ -126,7 +126,7 @@ export const restaurants: Restaurant[] = [
       {
         author: "小林",
         date: "2026/01/20",
-        rating: 3.8,
+        rating: 4.0,
         spend: 4800,
         title: "肉料理は良い",
         body: "味は良いが提供まで少し時間がかかった。",
@@ -149,7 +149,7 @@ export const restaurants: Restaurant[] = [
     area: "汐留",
     address: "東京都港区汐留2-4-1 汐留ガーデン 1F",
     price: "カフェ ¥800〜1,200",
-    rating: 3.8,
+    rating: 4.0,
     tags: ["カフェ", "作業可", "甘味"],
     note: "静かで打ち合わせにも使える。抹茶ラテが人気。",
     visited: "2026/01/30",
@@ -159,7 +159,7 @@ export const restaurants: Restaurant[] = [
       {
         author: "山本",
         date: "2026/01/30",
-        rating: 3.7,
+        rating: 3.5,
         spend: 900,
         title: "打ち合わせ向き",
         body: "静かで話しやすい。電源席は早めに埋まる。",
@@ -168,7 +168,7 @@ export const restaurants: Restaurant[] = [
       {
         author: "高橋",
         date: "2026/01/22",
-        rating: 3.9,
+        rating: 4.0,
         spend: 980,
         title: "抹茶ラテが良い",
         body: "甘さ控えめで飲みやすい。おやつに丁度いい。",
@@ -192,7 +192,7 @@ export const restaurants: Restaurant[] = [
       {
         author: "中村",
         date: "2026/02/02",
-        rating: 4.4,
+        rating: 4.5,
         spend: 1350,
         title: "午後に効く定食",
         body: "脂が重くなくて午後も集中できた。",
@@ -201,7 +201,7 @@ export const restaurants: Restaurant[] = [
       {
         author: "斎藤",
         date: "2026/01/29",
-        rating: 4.1,
+        rating: 4.0,
         spend: 1480,
         title: "日替わりが当たり",
         body: "焼き魚がふっくら。小鉢も良い。",

@@ -4,6 +4,11 @@
 - Tailwind CSS
 - Docker / Docker Compose
 
+## 📚 ドキュメント
+
+- [リポジトリ設定ガイド](.github/REPOSITORY_SETTINGS.md) - ブランチ保護などの推奨設定
+- [AI開発ガイド](AI_DEV_GUIDE.md) - AI エージェントによる開発手順
+
 ## 🚀 開発環境の立ち上げ
 
 ### 必要なもの

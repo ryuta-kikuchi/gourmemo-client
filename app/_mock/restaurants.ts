@@ -49,9 +49,9 @@ export const getPriceSummary = (restaurant: Restaurant) => {
   };
 };
 
-export const getReviewNote = (restaurant: Restaurant) => {
+export const getReviewNote = (restaurant: Restaurant): string | null => {
   if (restaurant.reviews.length === 0) {
-    return restaurant.note || "レビュー未投稿";
+    return null;
   }
 
   const latestReview = [...restaurant.reviews].sort((a, b) =>
@@ -59,7 +59,7 @@ export const getReviewNote = (restaurant: Restaurant) => {
   )[0];
 
   if (!latestReview) {
-    return restaurant.note || "レビュー未投稿";
+    return null;
   }
 
   return latestReview.title

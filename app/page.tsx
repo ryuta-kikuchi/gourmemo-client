@@ -136,9 +136,11 @@ export default function Home() {
                       </span>
                     )}
                   </div>
-                  <p className="text-sm leading-relaxed text-slate-700">
-                    {r.reviewNote}
-                  </p>
+                  {r.reviewNote && (
+                    <p className="text-sm leading-relaxed text-slate-700">
+                      {r.reviewNote}
+                    </p>
+                  )}
                   <div className="rounded-xl border border-dashed border-slate-200 bg-slate-50 px-4 py-6 text-sm text-slate-400">
                     写真（任意）エリア
                   </div>

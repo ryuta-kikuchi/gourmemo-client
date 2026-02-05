@@ -203,7 +203,7 @@ export default function RestaurantDetail({ params }: PageProps) {
           </div>
           {reviewNote && (
             <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-              <p className="text-sm text-slate-500">メモ</p>
+              <p className="text-sm text-slate-500">レビュー要約</p>
               <p className="mt-2 text-sm text-slate-700">
                 {reviewNote}
               </p>

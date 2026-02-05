@@ -4,7 +4,12 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 
 import { fields } from "./_mock/home";
-import { getPriceSummary, restaurants, tagOptions } from "./_mock/restaurants";
+import {
+  getPriceSummary,
+  getReviewNote,
+  restaurants,
+  tagOptions,
+} from "./_mock/restaurants";
 
 export default function Home() {
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
@@ -16,12 +21,14 @@ export default function Home() {
         );
         const displayTags = reviewTags.slice(0, 4);
         const priceSummary = getPriceSummary(restaurant);
+        const reviewNote = getReviewNote(restaurant);
 
         return {
           ...restaurant,
           reviewTags,
           displayTags,
           priceSummary,
+          reviewNote,
         };
       }),
     []
@@ -108,6 +115,7 @@ export default function Home() {
                       <p className="text-sm text-slate-500">
                         {r.area} ・ 価格帯 {r.priceSummary.label} ・ {r.visited}
                       </p>
+                      <p className="text-sm text-slate-500">{r.address}</p>
                     </div>
                     <div className="rounded-full bg-slate-900 px-3 py-1 text-sm font-semibold text-white">
                       ★ {r.rating}
@@ -128,9 +136,11 @@ export default function Home() {
                       </span>
                     )}
                   </div>
-                  <p className="text-sm leading-relaxed text-slate-700">
-                    {r.note}
-                  </p>
+                  {r.reviewNote && (
+                    <p className="text-sm leading-relaxed text-slate-700">
+                      {r.reviewNote}
+                    </p>
+                  )}
                   <div className="rounded-xl border border-dashed border-slate-200 bg-slate-50 px-4 py-6 text-sm text-slate-400">
                     写真（任意）エリア
                   </div>

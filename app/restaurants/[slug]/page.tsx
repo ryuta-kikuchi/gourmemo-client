@@ -5,6 +5,7 @@ import { use, useMemo, useState } from "react";
 
 import {
   getPriceSummary,
+  getReviewNote,
   restaurants,
   tagOptions,
   type Review,
@@ -38,6 +39,10 @@ export default function RestaurantDetail({ params }: PageProps) {
 
   const priceSummary = useMemo(
     () => getPriceSummary({ ...displayRestaurant, reviews }),
+    [displayRestaurant, reviews]
+  );
+  const reviewNote = useMemo(
+    () => getReviewNote({ ...displayRestaurant, reviews }),
     [displayRestaurant, reviews]
   );
 
@@ -164,6 +169,9 @@ export default function RestaurantDetail({ params }: PageProps) {
                 {displayRestaurant.area} ・ 価格帯 {priceSummary.label} ・ 最終訪問{" "}
                 {displayRestaurant.visited}
               </p>
+              <p className="text-sm text-slate-500">
+                住所 {displayRestaurant.address}
+              </p>
               {priceSummary.source === "reviews" && (
                 <p className="mt-1 text-xs text-slate-400">
                   レビューの支払額（{priceSummary.count}件）から算出
@@ -193,6 +201,14 @@ export default function RestaurantDetail({ params }: PageProps) {
               ))}
             </div>
           </div>
+          {reviewNote && (
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+              <p className="text-sm text-slate-500">レビュー要約</p>
+              <p className="mt-2 text-sm text-slate-700">
+                {reviewNote}
+              </p>
+            </div>
+          )}
         </section>
 
         <section className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">

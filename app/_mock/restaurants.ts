@@ -13,6 +13,7 @@ export type Restaurant = {
   name: string;
   area: string;
   address: string;
+  phone: string;
   price: string;
   rating: number;
   tags: string[];
@@ -73,6 +74,7 @@ export const restaurants: Restaurant[] = [
     name: "らーめん 雨",
     area: "虎ノ門",
     address: "東京都港区虎ノ門1-2-3 虎ノ門プレイス 1F",
+    phone: "03-1234-5678",
     price: "ランチ ¥1,000〜1,500",
     rating: 4.5,
     tags: ["ラーメン", "ランチ", "回転速い"],
@@ -106,6 +108,7 @@ export const restaurants: Restaurant[] = [
     name: "港南ビストロ 23",
     area: "新橋",
     address: "東京都港区新橋3-12-5 港南ビル 2F",
+    phone: "03-2345-6789",
     price: "ディナー ¥4,000〜6,000",
     rating: 3.8,
     tags: ["洋食", "会食", "予約推奨"],
@@ -148,6 +151,7 @@ export const restaurants: Restaurant[] = [
     name: "茶屋 すずらん",
     area: "汐留",
     address: "東京都港区汐留2-4-1 汐留ガーデン 1F",
+    phone: "03-3456-7890",
     price: "カフェ ¥800〜1,200",
     rating: 4.0,
     tags: ["カフェ", "作業可", "甘味"],
@@ -181,6 +185,7 @@ export const restaurants: Restaurant[] = [
     name: "魚と米 まどか",
     area: "虎ノ門",
     address: "東京都港区虎ノ門4-1-9 虎ノ門スクエア 2F",
+    phone: "03-4567-8901",
     price: "ランチ ¥1,100〜1,600",
     rating: 4.3,
     tags: ["和食", "定食", "ヘルシー"],
